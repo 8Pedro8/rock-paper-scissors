@@ -1,9 +1,12 @@
 let computerSelection = "";
 let playerSelection = "";
+let round = 1;
+let TOTAL_ROUNDS = 2;
 
 function userPlay()
 {
-    let selection = prompt("Your turn, enter: \'rock\', \'paper\' or \'scissors\'");
+    let selection = prompt("Round " + round + "/" + TOTAL_ROUNDS + 
+            ", your turn, enter: \'rock\', \'paper\' or \'scissors\'");
     selection = selection.toLowerCase();
 
     if (selection != "rock" && selection != "paper" && selection != "scissors") {
@@ -63,16 +66,20 @@ function playRound(playerSelection = "", computerSelection = "")
     return userState;
 }
 
+// Running game for five rounds:
+while(round <= TOTAL_ROUNDS) {
 
-playerSelection = userPlay(); 
+    playerSelection = userPlay(); 
 
-// Continue if the user's input is valid
-if(playerSelection != "") 
-{
-    computerSelection = computerPlay();
+    // Continue if the user's input is valid
+    if(playerSelection != "") 
+    {
+        computerSelection = computerPlay();
 
-    console.log("player: " + playerSelection);
-    console.log("computer: " + computerSelection);
+        console.log("player: " + playerSelection);
+        console.log("computer: " + computerSelection);
 
-    console.log("user state is: " + playRound(playerSelection, computerSelection));
+        console.log("user state is: " + playRound(playerSelection, computerSelection));
+        round++;
+    }
 }
