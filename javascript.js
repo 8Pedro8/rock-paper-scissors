@@ -1,6 +1,18 @@
 let computerSelection = "";
 let playerSelection = "";
 
+function userPlay()
+{
+    let selection = prompt("Your turn, enter: \'rock\', \'paper\' or \'scissors\'");
+    selection = selection.toLowerCase();
+
+    if (selection != "rock" && selection != "paper" && selection != "scissors") {
+        alert("Wrong input!");
+        return "";
+    }
+    return selection;
+}
+
 function computerPlay() 
 {
     let randomDecision = Math.floor(Math.random()*3) + 1;
@@ -8,52 +20,59 @@ function computerPlay()
     switch(randomDecision) 
     {
         case 1:
-            return "Rock";
+            return "rock";
         case 2:
-            return "Paper";
+            return "paper";
         case 3:
-            return "Scissors";
+            return "scissors";
         default:
             return "";
     }
 }
 
-function selectionsToStateMapping(decision = "") {
-    switch(decision) 
+function selectionsToStateMapping(selectionPair = "") 
+{
+    switch(selectionPair) 
     {
-        case "rockrock":
-        case "paperpaper":
-        case "scissorsscissors":
-            return "Tie";
+        case "rock_rock":
+        case "paper_paper":
+        case "scissors_scissors":
+            return "Tie!";
 
-        case "rockpaper":
-        case "paperscissors":
-        case "scissorsrock":
-            return "loser";
+        case "rock_paper":
+        case "paper_scissors":
+        case "scissors_rock":
+            return "You Lose! " + selectionPair.replace("_", " can't beat ");
 
-        case "rockscissors":
-        case "paperrock":
-        case "scissorspaper":
-            return "winner";
+        case "rock_scissors":
+        case "paper_rock":
+        case "scissors_paper":
+            return "You won! " + selectionPair.replace("_", " beats ");
 
         default:
-            return "Wrong pair!";
+            return "Wrong selection.\n use case: \'rock\' or \'paper\' or \'scissors\'";
     }
 }
 
 function playRound(playerSelection = "", computerSelection = "") 
 {
-    let selectionsCombined = playerSelection.toLocaleLowerCase() + computerSelection.toLocaleLowerCase();
-    console.log("pair: " + selectionsCombined);
+    let selectionPair = playerSelection + "_" + computerSelection;
+    console.log("Selection pair: " + selectionPair);
 
-    let userState = selectionsToStateMapping(selectionsCombined)
+    let userState = selectionsToStateMapping(selectionPair)
     return userState;
 }
 
-playerSelection = "rock";
-computerSelection = computerPlay();
 
-console.log("computer: " + computerSelection);
-console.log("player: " + playerSelection);
+playerSelection = userPlay(); 
 
-console.log("user state is: " + playRound(playerSelection, computerSelection));
+// Continue if the user's input is valid
+if(playerSelection != "") 
+{
+    computerSelection = computerPlay();
+
+    console.log("player: " + playerSelection);
+    console.log("computer: " + computerSelection);
+
+    console.log("user state is: " + playRound(playerSelection, computerSelection));
+}
