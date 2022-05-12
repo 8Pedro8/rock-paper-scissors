@@ -2,6 +2,8 @@ let computerSelection = "";
 let playerSelection = "";
 let round = 1;
 let TOTAL_ROUNDS = 2;
+let playerPoints = 0;
+let computerPoints = 0;
 
 function userPlay()
 {
@@ -45,30 +47,46 @@ function selectionsToStateMapping(selectionPair = "")
         case "rock_paper":
         case "paper_scissors":
         case "scissors_rock":
-            return "You Lose! " + selectionPair.replace("_", " can't beat ");
+            computerPoints++;
+            return "You Lost this round! " + selectionPair.replace("_", " can't beat ");
 
         case "rock_scissors":
         case "paper_rock":
         case "scissors_paper":
-            return "You won! " + selectionPair.replace("_", " beats ");
+            playerPoints++;
+            return "You won this round! " + selectionPair.replace("_", " beats ");
 
         default:
             return "Wrong selection.\n use case: \'rock\' or \'paper\' or \'scissors\'";
     }
 }
 
+function showResult() 
+{
+    let msg = "===============\n\n    Final result: ";
+    if(playerPoints > computerPoints) {
+        return msg + "You Won!";
+    } 
+    else if (playerPoints < computerPoints) {
+        return msg + "You Lost!";
+    }
+    else {
+        return msg + "Tie!";
+    }
+}
+
 function playRound(playerSelection = "", computerSelection = "") 
 {
     let selectionPair = playerSelection + "_" + computerSelection;
-    console.log("Selection pair: " + selectionPair);
+    //console.log("Selection pair: " + selectionPair);
 
     let userState = selectionsToStateMapping(selectionPair)
     return userState;
 }
 
 // Running game for five rounds:
-while(round <= TOTAL_ROUNDS) {
-
+while(round <= TOTAL_ROUNDS) 
+{
     playerSelection = userPlay(); 
 
     // Continue if the user's input is valid
@@ -76,6 +94,7 @@ while(round <= TOTAL_ROUNDS) {
     {
         computerSelection = computerPlay();
 
+        console.log("Round: " + round);
         console.log("player: " + playerSelection);
         console.log("computer: " + computerSelection);
 
@@ -83,3 +102,7 @@ while(round <= TOTAL_ROUNDS) {
         round++;
     }
 }
+
+console.log("  player total points: " + playerPoints);
+console.log("  computer total points: " + computerPoints);
+console.log(showResult())
